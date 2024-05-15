@@ -68,11 +68,11 @@ const getAllCategories = async (req, res, next) => {
             category.imageUrl = url
         }
 
-        console.log(categories)
+        // console.log(categories)
 
         //Esta peticion ya funcion
         // const categories = await CategoriesServices.getAll();
-        // res.json(categories);
+        res.status(200).json(categories);
         // console.log(categories)
     } catch (error) {
         next({
