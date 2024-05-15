@@ -4,8 +4,7 @@ const { Food } = require("../models");
 class FoodServices {
     static async create(newFood) {
         try {
-            // const result = await Food.create(newFood);
-            const result = newFood
+            const result = await Food.create(newFood);
             return result
         } catch (error) {
             throw error;

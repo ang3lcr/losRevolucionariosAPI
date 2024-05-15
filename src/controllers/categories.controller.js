@@ -1,6 +1,7 @@
 const {CategoriesServices} = require('../services');
 const { configDotenv } = require("dotenv");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner")
 const crypto = require('crypto')
 const sharp = require('sharp')
 require("dotenv").config();
@@ -56,8 +57,23 @@ const categoryRegister = async (req, res, next) => {
 const getAllCategories = async (req, res, next) => {
     try {
         const categories = await CategoriesServices.getAll();
-        res.json(categories);
-        console.log("response done")
+        for (const category of categories){
+
+            const getObjectParams = {
+                Bucket: bucketName,
+                Key: category.image,
+            }
+            const command = new GetObjectCommand(getObjectParams);
+            const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+            category.imageUrl = url
+        }
+
+        console.log(categories)
+
+        //Esta peticion ya funcion
+        // const categories = await CategoriesServices.getAll();
+        // res.json(categories);
+        // console.log(categories)
     } catch (error) {
         next({
             status: 400,
