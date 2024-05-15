@@ -54,34 +54,33 @@ const categoryRegister = async (req, res, next) => {
     }
 }
 
+
 const getAllCategories = async (req, res, next) => {
     try {
-        const categories = await CategoriesServices.getAll();
-        for (const category of categories){
+        let categories = await CategoriesServices.getAll();
+        // Convertir a objeto JSON para permitir adición de propiedades
+        categories = JSON.parse(JSON.stringify(categories));
 
+        for (const category of categories){
             const getObjectParams = {
                 Bucket: bucketName,
                 Key: category.image,
             }
             const command = new GetObjectCommand(getObjectParams);
             const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
-            category.imageUrl = url
+            category.imageUrl = url;
         }
 
-        // console.log(categories)
-
-        //Esta peticion ya funcion
-        // const categories = await CategoriesServices.getAll();
-        res.status(200).json(categories);
-        // console.log(categories)
+        res.json(categories);
     } catch (error) {
         next({
             status: 400,
             errorContent: error,
-            message: 'Something got wrong :(',
-        })
+            message: 'Something went wrong :(',
+        });
     }
 }
+
 
 
 module.exports = {
