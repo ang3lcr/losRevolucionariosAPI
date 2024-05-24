@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const cors = require ("cors");
 const db = require("./utils/database");
 const initModels = require("./models/initModels");
-const { userRoutes, foodRoutes, categoriesRoutes } = require("./routes");
+const { userRoutes, foodRoutes, categoriesRoutes, authRoutes } = require("./routes");
 const multer = require("multer");
 
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
@@ -38,6 +38,8 @@ app.get('/', (req, res) => {
 app.use('/api/v1', userRoutes);
 app.use('/api/v1', foodRoutes);
 app.use('/api/v1', categoriesRoutes);
+app.use('/api/v1', authRoutes);
+
 
 
 
