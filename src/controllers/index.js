@@ -1,6 +1,6 @@
 const {userRegister, getAllUser} = require("./user.controller")
 const {foodRegister, getAllFood} = require("./food.controller")
-const {categoryRegister, getAllCategories} = require("./categories.controller")
+const {categoryRegister, getAllCategories, editCategory} = require("./categories.controller")
 const {userLogin} = require("./auth.controller")
 
 
@@ -13,5 +13,6 @@ module.exports = {
     getAllFood,
     categoryRegister,
     getAllCategories,
+    editCategory,
     userLogin
 }

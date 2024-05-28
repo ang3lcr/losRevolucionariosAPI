@@ -20,6 +20,32 @@ class CategoriesServices {
         }
     }
 
+    static async getById(id){
+        try {
+           const category = await Categories.findByPk(id)
+           return category
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async update(id, data) {
+        try {
+            const updatedCategory = await Categories.update({category: data.category}, {
+                where: {
+                    id: id
+                }
+            });
+            return updatedCategory;
+        } catch (error) {
+            console.error(`Error updating category with id ${id}:`, error);
+            throw new Error('Unable to update category.'); // Propaga el error hacia arriba para que el llamador pueda manejarlo.
+        }
+    }
+    
+
+
+
 }
 
 
