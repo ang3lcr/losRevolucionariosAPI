@@ -32,7 +32,47 @@ const getAllFood = async (req, res, next) => {
 }
 
 
+
+const deleteFood = async (req, res, next) => {
+        const {id} = req.body
+        const food = await FoodServices.getById(id)
+        await food.destroy()
+        res.status(200).json({
+            "message": "Food deleted succesfully..."
+        })
+}
+
+
+
+const editFood = async (req, res, next) => {
+    const {id, ingredients, foodCategory, name} = req.body
+    const currentFood = await FoodServices.getById(id)
+    
+    if(name){
+        currentFood.name = name
+    }else{
+        currentFood.name = currentFood.name
+    }
+
+    if(ingredients){
+        currentFood.ingredients = ingredients        
+    }else{
+        currentFood.ingredients = currentFood.ingredients        
+    }
+
+    if(foodCategory){
+        currentFood.foodCategory = foodCategory
+    }else{
+        currentFood.foodCategory = currentFood.foodCategory
+    }
+    currentFood.save()
+    res.status(200).json(currentFood)
+}
+
+
 module.exports = {
     foodRegister,
     getAllFood,
+    deleteFood,
+    editFood
 }

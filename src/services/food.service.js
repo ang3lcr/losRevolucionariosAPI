@@ -20,6 +20,15 @@ class FoodServices {
         }
     }
 
+    static async getById(id) {
+        try {
+            const food = await Food.findByPk(id)
+            return food
+        } catch (error) {
+            throw error            
+        }
+    }
+
 }
 
 module.exports = FoodServices;
