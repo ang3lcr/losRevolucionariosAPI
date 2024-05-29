@@ -148,8 +148,21 @@ const editCategory = async (req, res, next) => {
 };
 
 
+
+const deleteCategory = async (req, res, next) => {
+    const { id } = req.body
+    const category =  await CategoriesServices.getById(id)
+    console.log(category)
+    await category.destroy()
+    res.status(200).json({
+        "message": "Category deleted succesfully..."
+    })
+}
+
+
 module.exports = {
     categoryRegister,
     getAllCategories,
-    editCategory
+    editCategory,
+    deleteCategory
 }
